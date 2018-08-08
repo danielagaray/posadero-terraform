@@ -76,6 +76,16 @@ resource "aws_security_group_rule" "posadera-node-ingress-self" {
   type                     = "ingress"
 }
 
+resource "aws_security_group_rule" "posadera-node-ingress-bastion" {
+  description              = "Allow bastion to communicate with each node"
+  from_port                = 0
+  protocol                 = "-1"
+  security_group_id        = "${aws_security_group.posadera-node.id}"
+  source_security_group_id = "${aws_security_group.bastion.id}"
+  to_port                  = 65535
+  type                     = "ingress"
+}
+
 resource "aws_security_group_rule" "posadera-node-ingress-cluster" {
   description              = "Allow worker Kubelets and pods to receive communication from the cluster control plane"
   from_port                = 1025
@@ -134,6 +144,7 @@ resource "aws_launch_configuration" "posadera" {
   name_prefix                 = "eks-posadera"
   security_groups             = ["${aws_security_group.posadera-node.id}"]
   user_data_base64            = "${base64encode(local.posadera-node-userdata)}"
+  key_name                    = "posadero-2018"
 
   lifecycle {
     create_before_destroy = true
