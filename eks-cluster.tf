@@ -5,6 +5,31 @@
 #  * EKS Cluster
 #
 
+resource "aws_iam_policy" "posadera-cluster-link" {
+  name        = "posadera-cluster-link"
+  path        = "/"
+
+  policy = <<EOF
+{
+     "Version": "2012-10-17",
+     "Statement": [
+         {
+             "Effect": "Allow",
+             "Action": "iam:CreateServiceLinkedRole",
+             "Resource": "arn:aws:iam::*:role/aws-service-role/*"
+         },
+         {
+             "Effect": "Allow",
+             "Action": [
+                 "ec2:DescribeAccountAttributes"
+             ],
+             "Resource": "*"
+         }
+     ]
+ }
+EOF
+}
+
 resource "aws_iam_role" "posadera-cluster" {
   name = "eks-posadera-cluster"
 
@@ -22,6 +47,11 @@ resource "aws_iam_role" "posadera-cluster" {
   ]
 }
 POLICY
+}
+
+resource "aws_iam_role_policy_attachment" "posadera-cluster-AmazonEKSLinkService" {
+  policy_arn = "${aws_iam_policy.posadera-cluster-link.arn}"
+  role       = "${aws_iam_role.posadera-cluster.name}"
 }
 
 resource "aws_iam_role_policy_attachment" "posadera-cluster-AmazonEKSClusterPolicy" {
