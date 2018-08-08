@@ -5,6 +5,10 @@
 #  * EKS Cluster
 #
 
+resource "aws_ecr_repository" "ecs" {
+  name  = "posadero-web"
+}
+
 resource "aws_iam_policy" "posadera-cluster-link" {
   name        = "posadera-cluster-link"
   path        = "/"
