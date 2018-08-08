@@ -28,3 +28,8 @@ variable "asg_instance_type_size" {
   default = "t2.large",
   type    = "string"
 }
+
+variable "jump_instance_type" {
+  default = "t1.micro",
+  type    = "string"
+}

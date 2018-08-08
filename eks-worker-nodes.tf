@@ -146,7 +146,7 @@ resource "aws_autoscaling_group" "posadera" {
   max_size             = "${var.asg_max_size}"
   min_size             = "${var.asg_min_size}"
   name                 = "eks-posadera"
-  vpc_zone_identifier  = ["${aws_subnet.posadera.*.id}"]
+  vpc_zone_identifier  = ["${aws_subnet.private.*.id}"]
 
   tag {
     key                 = "Name"
