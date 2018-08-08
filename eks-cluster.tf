@@ -5,8 +5,12 @@
 #  * EKS Cluster
 #
 
-resource "aws_ecr_repository" "ecs" {
+resource "aws_ecr_repository" "app" {
   name  = "posadero-web"
+}
+
+resource "aws_ecr_repository" "nginx" {
+  name  = "posadero-nginx"
 }
 
 resource "aws_iam_policy" "posadera-cluster-link" {
